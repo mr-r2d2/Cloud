@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>OpenCloud</title>
+    <link href="style.css" rel="stylesheet" />
+    <meta content="Upload &amp; Download files" name="description" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="row">
+        <form action="php/auth.php" class="form row__block block_public" id="login" method="post">
+          <fieldset class="form__fieldset">
+            <legend class="form__legend">Login</legend>
+            <dl class="form-group">
+              <dt class="form__dt">
+                <label class="form__label" for="username">Account:</label>
+              </dt>
+              <dd class="form__dd">
+                <input autocomplete="username" class="form__input" id="username" maxlength="25" minlength="1" name="username" placeholder="alex23" required="true" title="Please, input your Account" type="text" /><small class="form__text_muted form__text_small">Login ID</small>
+              </dd>
+            </dl>
+            <dl class="form-group">
+              <dt class="form__dt">
+                <label class="form__label" for="password">Password:</label>
+              </dt>
+              <dd class="form__dd">
+                <input autocomplete="current-password" class="form__input" id="password" maxlength="75" minlength="1" name="password" placeholder="password" required="true" title="Please, input your Password" type="password" />
+              </dd>
+            </dl>
+            <dl class="form-group">
+              <dt class="form__dt"></dt>
+              <dd class="form__dd">
+                <button class="form__button" name="submit__login" type="submit" value="yes">Log In</button><small class="form__text_small text_italic">Both fields are required</small>
+              </dd>
+            </dl>
+          </fieldset>
+        </form>
+      </div>
+      <div class="block_private">
+        <nav class="navbar navbar-light bg-light justify-content-between my-1 border-top shadow-sm mb-4 bg-white">
+            <div class="row ml-1">
+              <span class="navbar-brand" >Cloud</span>
+              <div class="col m-0 mx-auto p-0">
+                <div class="spinner-border block_hidden block_loading" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            </div>
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle user_name" data-toggle="dropdown">UserName</a>
+              <div class="dropdown-menu dropdown-menu-right" >
+                <a class="dropdown-item block_private " href="php/auth.php?logout=true" title="System won&#39;t identify you">Log Out</a>
+              </div>
+           </div>
+        </nav>
+      </div>
+    <nav aria-label="breadcrumb" class="block_private">
+		  <div class="container-fluid">
+        <ol class="breadcrumb py-my-3">
+          <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+<!--           <li class="breadcrumb-item"><a href="#">Папка1</a></li>
+<li class="breadcrumb-item active" aria-current="page">Папка 1.2</li> -->
+        </ol>
+      </div>
+    </nav>
+  <div class="container-fluid block_private">
+    <div class="row my-4 mx-0">
+      <div class="col px-0 mr-3 shadow bg-white rounded">
+        <div class="card bg-light">
+          <div class="card-header">Новая папка</div>
+          <div class="card-body">
+            <div class="input-group">
+              <input type="text" class="form-control" id="folder_name" placeholder="Введите имя новой папки" aria-label="Введите имя новой папки" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button" data-folder_id="1" id="add_folder">Создать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col mt-4 mt-sm-0 px-0 ml-md-3 ml-0 shadow bg-white rounded block_private">
+        <div class="card">
+          <div class="card-header">Загрузка файла</div>
+          <div class="card-body">
+            <form action="php/upload.php" class="upload block_private" enctype="multipart/form-data" id="upload_form" method="post">
+             <input name="parent_folder__id" type="hidden" value="1" />
+                <div class="screen-reader-text">
+                  If you see this, leave next form field blank
+                </div>
+                <input name="captcha" type="hidden" value="0" />
+              <div class="d-flex flex-row input-group">
+                <div class="custom-file">
+                   <input type="file" multiple="false" name="files[]" class="custom-file-input" id="customFile">
+                   <label class="custom-file-label" for="customFile">Выберите файл</label>
+                </div>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit" id="button-addon3">Загрузить</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+   <div class="container-fluid block_private">
+     <div class="row mt-5 mx-0">
+       <div class="col-md-4 px-0 pr-md-3">
+         <div class="table-responsive">
+          <table class="table table-borderless table-hover files">
+            <caption class="table__caption screen-reader-text">Your Folders</caption>
+            <thead class="thead-light">
+              <tr class="table__tr">
+                <th class="table__th">Папки</th>
+                <th class="table__th go_back py-2"></th>
+              </tr>
+            </thead>
+            <tbody class="table__tbody">
+              <tr class="table__tr">
+                <td class="table__td">
+                  <a href="#folder7" class="link link_folder" data-folder__id="7" data-parent_folder_id="1"><i class="fa fa-folder-o"></i> Папка 1</a>
+                </td>
+                <td class="table__td">
+                  <button class="btn btn-success"><i class="fa fa-sign-in"></i></button>
+                  <button class="btn btn-primary"><i class="fa fa-pencil"></i></button>
+                  <button class="btn btn-danger link_remove"><i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+       </div>
+
+       <div class="col-md-8 pr-0 px-0 pl-md-3">
+         <div class="table-responsive">
+          <table class="table table-borderless table-hover filesList">
+            <caption class="table__caption screen-reader-text">Your Files</caption>
+            <thead class="thead-light">
+              <tr class="table__tr">
+                <th class="table__th">Файлы</th>
+                <th class="table__th"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i class="fa fa-file-o"></i> File.jpg</td>
+                <td>
+                  <a href="#" class="btn btn-success"><i class="fa fa-download"></i></a>
+                  <button class="btn btn-primary active link_public"><i class="fa fa-link"></i></button>
+                  <button class="btn btn-primary link_rename"><i class="fa fa-pencil"></i></button>
+                  <button class="btn btn-danger link_remove"><i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+       </div>
+    </div>
+  </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>

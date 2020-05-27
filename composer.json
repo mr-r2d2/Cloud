@@ -1,0 +1,17 @@
+{
+    "autoload": {
+        "files": [
+            "php/core/core.php",
+            "php/core/db.php",
+            "php/producer.php",
+            "php/variables.php"
+        ],
+        "psr-4": {
+            "Pheanstalk\\": "src/"
+        }
+    },
+    "name": "admin/public_html",
+    "require": {
+        "pda/pheanstalk": "^4.0"
+    }
+}

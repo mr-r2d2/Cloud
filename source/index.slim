@@ -1,0 +1,143 @@
+doctype html
+html[lang="en"]
+    head
+        meta[charset="utf-8"]
+        meta[content="IE=edge" http-equiv="X-UA-Compatible"]
+        meta[content="width=device-width, initial-scale=1.0" name="viewport"]
+        title
+            | OpenCloud
+        link[href="style.css" rel="stylesheet"]
+        meta[content="Upload &amp; Download files" name="description"]
+        link[rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"]
+        link[rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"]
+        script[src="script.js"]
+    body
+        .row
+            form#login.form.row__block.block_public[action="php/auth.php" method="post"]
+                fieldset.form__fieldset
+                    legend.form__legend
+                        | Login
+                    dl.form-group
+                        dt.form__dt
+                            label.form__label[for="username"]
+                                | Account:
+                        dd.form__dd
+                            input#username.form__input[autocomplete="username" maxlength="25" minlength="1" name="username" placeholder="alex23" required="true" title="Please, input your Account" type="text"]
+                            small.form__text_muted.form__text_small
+                                | Login ID
+                    dl.form-group
+                        dt.form__dt
+                            label.form__label[for="password"]
+                                | Password:
+                        dd.form__dd
+                            input#password.form__input[autocomplete="current-password" maxlength="75" minlength="1" name="password" placeholder="password" required="true" title="Please, input your Password" type="password"]
+                    dl.form-group
+                        dt.form__dt
+                        dd.form__dd
+                            button.form__button[name="submit__login" type="submit" value="yes"]
+                                | Log In
+                            small.form__text_small.text_italic
+                                | Both fields are required
+        .block_private
+            nav.navbar.navbar-light.bg-light.justify-content-between.my-1.border-top.shadow-sm.mb-4.bg-white
+                .row.ml-1
+                    span.navbar-brand
+                        | Cloud
+                    .col.m-0.mx-auto.p-0
+                        .spinner-border.block_hidden.block_loading[role="status"]
+                            span.sr-only
+                                | Loading...
+                .nav-item.dropdown
+                    a.nav-link.dropdown-toggle.user_name[data-toggle="dropdown"]
+                        | UserName
+                    .dropdown-menu.dropdown-menu-right
+                        a.dropdown-item.block_private[href="php/auth.php?logout=true" title="System won&#39;t identify you"]
+                            | Log Out
+        nav.block_private[aria-label="breadcrumb"]
+            .container-fluid
+                ol.breadcrumb.py-my-3
+                    li.breadcrumb-item
+                        a[href="index.html"]
+                            | Главная
+        .container-fluid.block_private
+            .row.my-4.mx-0
+                .col.px-0.mr-3.shadow.bg-white.rounded
+                    .card.bg-light
+                        .card-header
+                            | Новая папка
+                        .card-body
+                            .input-group
+                                input#folder_name.form-control[type="text" placeholder="Введите имя новой папки" aria-label="Введите имя новой папки" aria-describedby="button-addon2"]
+                                .input-group-append
+                                    button#add_folder.btn.btn-primary[type="button" data-folder_id="1"]
+                                        | Создать
+                .col.mt-4.mt-sm-0.px-0.ml-md-3.ml-0.shadow.bg-white.rounded.block_private
+                    .card
+                        .card-header
+                            | Загрузка файла
+                        .card-body
+                            form#upload_form.upload.block_private[action="php/upload.php" enctype="multipart/form-data" method="post"]
+                                input[name="parent_folder__id" type="hidden" value="1"]
+                                .screen-reader-text
+                                    |  If you see this, leave next form field blank
+                                input[name="captcha" type="hidden" value="0"]
+                                .d-flex.flex-row.input-group
+                                    .custom-file
+                                        input#customFile.custom-file-input[type="file" multiple="false" name="files[]"]
+                                        label.custom-file-label[for="customFile"]
+                                            | Выберите файл
+                                    .input-group-append
+                                        button#button-addon3.btn.btn-primary[type="submit"]
+                                            | Загрузить
+        .container-fluid.block_private
+            .row.mt-5.mx-0
+                .col-md-4.px-0.pr-md-3
+                    .table-responsive
+                        table.table.table-borderless.table-hover.files
+                            caption.table__caption.screen-reader-text
+                                | Your Folders
+                            thead.thead-light
+                                tr.table__tr
+                                    th.table__th
+                                        | Папки
+                                    th.table__th.go_back.py-2
+                            tbody.table__tbody
+                                tr.table__tr
+                                    td.table__td
+                                        a.link.link_folder[href="#folder7" data-folder__id="7" data-parent_folder_id="1"]
+                                            i.fa.fa-folder-o
+                                            |  Папка 1
+                                    td.table__td
+                                        button.btn.btn-success
+                                            i.fa.fa-sign-in
+                                        button.btn.btn-primary
+                                            i.fa.fa-pencil
+                                        button.btn.btn-danger.link_remove
+                                            i.fa.fa-trash
+                .col-md-8.pr-0.px-0.pl-md-3
+                    .table-responsive
+                        table.table.table-borderless.table-hover.filesList
+                            caption.table__caption.screen-reader-text
+                                | Your Files
+                            thead.thead-light
+                                tr.table__tr
+                                    th.table__th
+                                        | Файлы
+                                    th.table__th
+                            tbody
+                                tr
+                                    td
+                                        i.fa.fa-file-o
+                                        |  File.jpg
+                                    td
+                                        a.btn.btn-success[href="#"]
+                                            i.fa.fa-download
+                                        button.btn.btn-primary.active.link_public
+                                            i.fa.fa-link
+                                        button.btn.btn-primary.link_rename
+                                            i.fa.fa-pencil
+                                        button.btn.btn-danger.link_remove
+                                            i.fa.fa-trash
+        script[src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"]
+        script[src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"]
+        script[src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"]

@@ -1,0 +1,29 @@
+@import "less/normalize.less";
+@import "less/defaults.less";
+@import "less/vars.less";
+@import "less/text.less";
+@import "less/row.less";
+@import "less/form.less";
+@import "less/table.less";
+
+body {
+	font-family: @arial;
+	line-height: 1.4;
+}
+.table__td,
+.table__th {
+	&:nth-child(1) {
+		// File
+		text-align: left;
+	}
+	&:nth-child(2) {
+		// action
+		text-align: right;
+	}
+}
+.custom-file {
+	overflow: hidden;
+}
+.custom-file-input {
+	white-space: nowrap;
+}
