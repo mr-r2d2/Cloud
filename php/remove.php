@@ -39,8 +39,9 @@ if (
     if (isset($_GET['timer'])) {
         $timer_remove = filter_input(INPUT_GET, 'timer', FILTER_SANITIZE_NUMBER_INT);
         schedulingFileRemove($timer_remove, $remove_file__id, $user__id);
+        http_response_code(203);
+        header('Location: ' . htmlspecialchars(WEBSITE_ADDRESS));
         exit();
-
     }
 
 

@@ -50,6 +50,7 @@ function endProgress() {
  */
 function runAfterJSReady() {
     startProgress();
+    removeLinkSchedule();
     removeLinkConfirm();
     renameLinkPrompt();
     publicLinkConfirm();
@@ -196,9 +197,9 @@ function refreshTable(filesListQuery = '.files tbody', folder_id = 1, parent_fol
                     // Schedule button html content
                     let scheduleButton;
                     scheduleButton = '<div class="btn-group dropleft"><button type="button" class="btn btn-danger mx-1  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-clock-o"></i></button><div class="dropdown-menu m-0 p-0 mr-1 border-0"><div class="btn-group dropdown-item p-0" role="group"><button type="dropdown-item" class="btn btn-primary d-none d-lg-block" disabled >Через: </button>';
-                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=1" type="dropdown-item"  class="btn btn-primary link_remove" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">1 s</a>';
-                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=30" type="dropdown-item"  class="btn btn-primary link_remove" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">30 s</a>';
-                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=60" type="dropdown-item"  class="btn btn-primary link_remove" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">1 min</a>';
+                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=1" type="dropdown-item"  class="btn btn-primary link_remove schedul" data-timer="1" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">1 s</a>';
+                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=30" type="dropdown-item"  class="btn btn-primary link_remove schedul" data-timer="30" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">30 s</a>';
+                    scheduleButton += '<a href="php/remove.php?remove_file__id=' + element['id'] + '&timer=60" type="dropdown-item"  class="btn btn-primary link_remove schedul" data-timer="60" data-file_id="' + element['id'] + '" data-real_name="' + element['real_name'] + '" title="Отложенное удаление ' + element['real_name'] + '">1 min</a>';
                     // Close div elements
                     scheduleButton += '</div></div></div>';
                     cellFile2.innerHTML = scheduleButton;
@@ -479,7 +480,29 @@ function removeLinkConfirm(removeLinksQuery = '.link_remove') {
         });
     });
 }
-
+/**
+ * Add event to all Remove File links scheduling.
+ * Confirm removing.
+ *
+ * @param string removeLinksQuery
+ */
+function removeLinkSchedule(removeLinksQuery = '.schedul') {
+    // grab reference to remove links
+    const removeLinkElems = document.querySelectorAll(removeLinksQuery);
+    // if the remove links exists
+    if (null === removeLinkElems || undefined === removeLinkElems || 0 >= removeLinkElems.length) {
+        console.log("Cannot find remove links: " + removeLinksQuery);
+        return;
+    }
+    removeLinkElems.forEach(removeLinkElem => {
+        // remove Links handler
+        removeLinkElem.addEventListener('click', function (e) {
+            setTimeout( function(){
+                runRefresh();
+            },  removeLinkElem.dataset.timer*1000);
+        });
+    });
+}
 /**
  * Add event to all Public File links.
  * Shows public link.
